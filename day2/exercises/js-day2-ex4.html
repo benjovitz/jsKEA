@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table class="table">
+        <thead>
+        <tr id="tableheaders">
+            <td id="id">ID</td><th id="year">Year</th><th id="make">Make</th><th id="model">Model</th><th id="price">Price</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+    <input type="text" id="filterPrice">
+    <button id="filterbtn">Filter price</button>  
+    <input type="text" id="filterMake">
+    <button id="makebtn">Filter make</button>  
+
+    <button id="clearbtn">Clear filters</button>
+</body>
+
+<script>
+
+    const table = document.getElementById("tbody")
+  
+    const cars = [
+  { id: 1, year: 1997, make: 'Ford', model: 'E350', price: 3000 },
+  { id: 2, year: 1999, make: 'Chevy', model: 'Venture', price: 4900 },
+  { id: 3, year: 2000, make: 'Chevy', model: 'Venture', price: 5000 },
+  { id: 4, year: 1996, make: 'Jeep', model: 'Grand Cherokee', price: 4799 },
+  { id: 5, year: 2005, make: 'Volvo', model: 'V70', price: 44799 }
+];
+//4a) Use the map  method to create a table with all data
+window.onload = makeTable(cars)
+function makeTable(array){
+let carsHTML = array.map(car=>"<tr><td>"+car.id+"</td>"+"<td>"+car.year+"</td>"+"<td>"+car.make+"</td>"+"<td>"+car.model+"</td>"+"<td>"+car.price+"</td></tr>").join("")
+table.innerHTML = carsHTML
+}
+  //4c) Use the filter method, to filter out items from the list
+  document.getElementById("filterbtn").onclick = (evt)=>{
+        evt.preventDefault()
+        let price = document.getElementById("filterPrice").value
+        let carsHTML = cars.filter(car=>car.price<=price)
+        makeTable(carsHTML)
+    }
+//4d) clear filter
+document.getElementById("clearbtn").onclick = (evt)=>{
+    evt.preventDefault()
+    makeTable(cars)
+} 
+//4e) (If you have time) Add a feature to filter the table by a make. similar to what was done in part-a 
+document.getElementById("makebtn").onclick = (evt)=>{
+        evt.preventDefault()
+        let make = document.getElementById("filterMake").value
+        let carsHTML = cars.filter(car=>car.make==make)
+        makeTable(carsHTML)
+    }
+//4f.a) Add an eventhandler to the price header, + the required code to sort by price when the header is clicked
+//4f.b)
+/*
+let priceChecker = true;
+    document.getElementById("price").onclick = (evt) =>{
+        let carsHTML=[];
+        if(priceChecker==true){
+            carsHTML = cars.sort((a,b)=>a.price-b.price)
+            priceChecker=false;
+        }else{
+            carsHTML = cars.sort((a,b)=>b.price-a.price)
+            priceChecker=true;
+        }
+        makeTable(carsHTML)
+    }
+    document.getElementById("make").onclick = (evt) =>{
+        let carsHTML = cars.sort((a,b)=>a.make.localeCompare(b.make)) 
+        makeTable(carsHTML)
+    }
+    */
+    //et forsøg, kan ikke få den til begge veje, man kunne lave en swith til revers med et boolean check, men tror ikke det er den "rigtige" løsning
+    const tableheaders = document.getElementById("tableheaders")
+    tableheaders.onclick = sortThatBitch
+    function sortThatBitch(tableheader){
+        let carsHTML = [];
+        let target = tableheader.target
+        console.log(target.id)
+        switch(target.id){
+            case "id": 
+            carsHTML = cars.sort((a,b)=>a.id-b.id)
+            break;
+            case "year":
+            carsHTML = cars.sort((a,b)=>a.year-b.year)
+            break;
+            case "make":
+            carsHTML = cars.sort((a,b)=>a.make.localeCompare(b.make))
+            break;
+            case "model":
+            carsHTML = cars.sort((a,b)=>a.model.localeCompare(b.model))
+            break;
+            case "price":
+            carsHTML = cars.sort((a,b)=>a.price-b.price)
+            break;
+        } 
+        makeTable(carsHTML)
+    }
+
+</script>
+</html>
