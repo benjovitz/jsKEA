@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="">
+        <ul id="list">
+        </ul>
+        <input type="text" id="new-name">
+        <input type="button" value="add name" id="btn1">
+        <input type="button" value="remove first" id="btn2">
+        <input type="button" value="remove last" id="btn3">
+    </form>
+</body>
+
+<script>
+    const names = ["Lars","Jan","Peter","Bo","Frederik","Daniel"];
+    window.onload=makelist
+
+    //make list
+    function makelist(){
+    let namesHTML = names.map(name=>"<li>"+name+"</li>").join("");
+    let list = document.getElementById("list")
+    list.innerHTML = namesHTML
+    }
+
+    //add name
+    document.getElementById("btn1").onclick = (evt) =>{
+        evt.preventDefault()
+        const name = document.getElementById("new-name").value;
+        names.push(encode(name))
+        makelist();
+    }
+
+    //Remove first
+    document.getElementById("btn2").onclick = (evt) =>{
+        evt.preventDefault()
+        names.shift()
+        makelist()
+    }
+
+    //Remove last
+    document.getElementById("btn3").onclick = (evt) =>{
+        evt.preventDefault()
+        names.pop()
+        makelist()
+    }
+
+
+    
+    function encode(str) {
+        str = str.replace(/&/g, "&amp;");
+        str = str.replace(/>/g, "&gt;");
+        str = str.replace(/</g, "&lt;");
+        str = str.replace(/"/g, "&quot;");
+        str = str.replace(/'/g, "&#039;");
+        return str;
+    }
+
+</script>
+</html>

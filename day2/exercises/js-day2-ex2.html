@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section id="outer">
+    <div id="div1" class="my-div"></div>
+    <div id="div2" class="my-div"></div>
+    <div id="div3" class="my-div"></div>
+    <div id="div4" class="my-div"></div>
+    <div id="div5" class="my-div"></div>
+    <div id="div6" class="my-div"></div>
+    <div id="div7" class="my-div"></div>
+</section>
+</body>
+
+<script>
+
+const section = document.getElementById("outer")
+section.onclick = hello
+
+function hello(e){
+   let target  = e.target
+   console.log("hello from "+target.id)
+}
+</script>
+
+<style>
+    .my-div {width: 25px; height: 25px;background-color:red; margin:1px;}
+  </style>
+ 
+</html>

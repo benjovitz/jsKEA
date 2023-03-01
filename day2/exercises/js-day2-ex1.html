@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hej</title>
+</head>
+<body>
+<div id="block1" style="width: 100px;margin: 1px;">&nbsp;</div>
+<div id="block2" style="width: 100px;margin: 1px;">&nbsp;</div>
+<div id="block3" style="width: 100px;margin: 1px;">&nbsp;</div>
+<button id="btn">change color</button>
+</body>
+<script>
+    
+    const divs = document.querySelectorAll("div");
+    const btn = document.getElementById("btn");
+
+    btn.onclick=changeColor;
+    
+    function setDivBackgroundsPink() {
+  divs.forEach((div) => {
+    div.style.backgroundColor="pink"
+  });
+}
+
+function changeColor(){
+    divs.forEach((div)=>{
+        div.style.backgroundColor=getRandomColor();
+    })
+}
+
+window.onload=setDivBackgroundsPink;
+
+function getRandomColor () {
+  var hex = Math.floor(Math.random() * 0xFFFFFF);
+  return "#" + ("000000" + hex.toString(16)).substr(-6);
+}
+  
+</script>
+</html>
