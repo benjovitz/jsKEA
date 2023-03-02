@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        
+        .parent {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1px 1px;
+        }
+        .item {
+            background-color: lightskyblue;
+            border: 1px solid #fff;
+            padding: 5px 5px 5px 2em;
+            min-height: 250px;
+        }
+    </style>
+</head>
+<body style="font-family: sans-serif">
+<div style="margin-left: 10%;width: 75%;margin-right: auto">
+    <h2>Car's 'R' Us Client Demo - Version poor ;-)</h2>
+    <div class="parent">
+        <div class="item">
+            <h3>Show all Members or Cars</h3>
+            <button id="btn-get-all">Get all</button>
+            <table id="get-all">
+               
+            </table>
+        </div>
+        <div class="item">
+            <h3>Find a single Member or Car</h3>
+            <label for="text-for-id">Id</label>&nbsp;<input id="text-for-id"/>
+            <button id="btn-get-specific">Find</button>
+            <ul id="get-specific"> 
+            </ul>
+        </div>
+        <div class="item">
+            <h3>Add a Car or a Member</h3>
+            <div><label for="brand">Brand</label>&nbsp;<input id="brand"/></div>
+            <div><label for="model">Model</label>&nbsp;<input id="model"/></div>
+            <div><label for="pricePrDay">Price</label>&nbsp;<input id="pricePrDay"/></div>
+            <button id="btn-add">Submit new item</button>
+            <ul id="new-car">
+
+            </ul>
+            <p>Use one of the two GET pages to verify that "something" was added</p>
+        </div>
+        <div class="item">
+            <h3>Edit a Car or a Member</h3>
+            <label for="text-for-id2">Id</label>&nbsp;<input id="text-for-id2"/>
+            <button>Find item to edit</button>
+            <p>Show what you find here, and let users edit fields</p>
+            <p>......</p>
+            <button>Submit edited item</button>
+            <p>Use one of the two GET pages to verify that "something" was added</p>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    //buttons + functions
+document.getElementById("btn-get-all").onclick = getAllCars
+document.getElementById("btn-get-specific").onclick = getSpecificCar
+document.getElementById("btn-add").onclick=addCar
+
+//HTML
+const getAll = document.getElementById("get-all")
+const getSpecific = document.getElementById("get-specific")
+
+
+ function getAllCars(){
+    
+    fetch("http://localhost:8080/api/cars")
+    .then(res=>res.json())
+    .then(data=>{
+        let text = ` <tr>
+                    <th>id</th><th>brand</th><th>model</th><th>price per day</th><th>best discount</th><th>created</th>
+                </tr>`
+                text+=data.map(car=>"<tr><td>"+car.id+"</td><td>"+car.brand+"</td><td>"+car.model+"</td><td>"+car.pricePrDay+"</td><td>"+car.bestDiscount+"%</td><td>"+car.created+"</td></tr>").join("")
+        getAll.innerHTML=text
+    })
+ }
+ function getSpecificCar(){
+    let id = document.getElementById("text-for-id").value
+    fetch("http://localhost:8080/api/cars/"+id)
+    .then(res=>res.json())
+    .then(car=>{
+        console.log(car)
+        let text ="<li>ID: "+car.id+"</li><li>Brand: "+car.brand+"</li><li>Model: "+car.model+"</li><li>Price per day: "+car.pricePrDay+"</li><li> Best Discount: "+car.bestDiscount+"</li><li>Created: "+car.created+"</li>"
+            if(car.reservations.length!=0){
+            text+="<li> Reservations: <table><th>date</th><th>username</th><th>email</th>"
+            text+= car.reservations.map(res=>"<tr><td>"+res.date+"</td><td>"+res.username+"</td><td>"+res.email+"</td></tr>").join("")
+            text+="</table>"
+    }
+       getSpecific.innerHTML=text
+    })
+ }
+ function addCar(){
+    let newCar={}
+    newCar.brand=document.getElementById("brand").value
+    newCar.model=document.getElementById("model").value
+    newCar.pricePrDay=document.getElementById("pricePrDay").value
+
+    fetch("http://localhost:8080/api/cars",{
+        method: "post",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify(newCar)
+    })
+    .then(res=>res.json())
+    .then(car=>{
+        let text = "<li>ID: "+car.id+"</li><li>Brand: "+car.brand+"</li><li>Model: "+car.model+"</li><li>Price pr day: "+car.pricePrDay+"</li>"
+        document.getElementById("new-car").innerHTML=text
+    })
+ }
+</script>
+</html>

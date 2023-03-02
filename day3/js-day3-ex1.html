@@ -7,33 +7,23 @@
     <title>Document</title>
 </head>
 <body>
-    <section>
-        <input type="text" id="user-id">
-        <button id="getUserbtn">Get user</button>
-        <button id="getAllbtn">Get all</button>
-    </section>
     <section id="user-section">
-        <ul>
-        </ul>
-        <table id="user-table">
-           
-        </table>
-
+        
     </section>
+    <input type="text" id="user-id">
+    <button id="getUserbtn">Get user</button> 
 </body>
 
 <script>
     document.getElementById("getUserbtn").onclick = getuser
-    document.getElementById("getAllbtn").onclick = getall
     const user = document.getElementById("user-section")
-    const userTable = document.getElementById("user-table")
 
     function getuser(){
         const userid = document.getElementById("user-id").value 
         fetch("https://jsonplaceholder.typicode.com/users/"+userid)
     .then(res => res.json())
     .then(data=>{
-        console.log(data)
+        console.log(data) 
         let text = "<li>Name: "+data.name+"</li>"
         text+= "<li>Phone: "+data.phone+"</li>"
         text+="<b>Adress</b>"
@@ -41,28 +31,9 @@
         text+= "<li>City: "+data.address.city+"</li>"
         text+= "<li>Zip: "+data.address.zipcode+"</li>"
         text+= "<li>Geo: "+data.address.geo.lat+data.address.geo.lng+"</li>"
+        
         user.innerHTML=text
     })
-    }
-
-    function getall(){
-        fetch("https://jsonplaceholder.typicode.com/users")
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data)
-            let text = ` <tr>
-                <th>Name</th>
-                <th>Phone</th>
-            </tr>`
-            data.forEach(element => {
-                text+="<tr>"
-                text+="<td>"+element.name+"</td>"
-                text+="<td>"+element.phone+"</td>"
-                text+="</tr>"
-                console.log(text)
-            });
-            userTable.innerHTML = text
-        })
     }
 
     
