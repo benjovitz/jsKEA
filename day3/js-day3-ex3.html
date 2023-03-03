@@ -101,7 +101,7 @@
         
         ogCountry=newCountry
         orignalFill = newCountry.style.fill
-        newCountry.style.fill = "pink"
+        newCountry.style.fill = getRandomColor()
 
         fetch("https://countries.plaul.dk/api/countries/"+newCountry.id)
         .then(res => res.json())
@@ -128,5 +128,10 @@
             flag.setAttribute("src",data.flag)
         })
     }
+
+    function getRandomColor () {
+  var hex = Math.floor(Math.random() * 0xFFFFFF);
+  return "#" + ("000000" + hex.toString(16)).substr(-6);
+}
 </script>
 </html>
