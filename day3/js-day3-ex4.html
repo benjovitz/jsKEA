@@ -79,6 +79,8 @@ const idEdit = document.getElementById("id-edit")
 const brandEdit = document.getElementById("brand-edit")
 const modelEdit = document.getElementById("model-edit")
 const priceEdit = document.getElementById("pricePrDay-edit")
+//For better errorhandling, so you couldndt just remove readonly from DOM and edit a different car
+let carID;
 
 
  function getAllCars(){
@@ -128,8 +130,8 @@ const priceEdit = document.getElementById("pricePrDay-edit")
     })
  }
  function getCarForEdit(){
-    let id = document.getElementById("text-for-id2").value
-    fetch("http://localhost:8080/api/cars/"+id)
+    carID = document.getElementById("text-for-id2").value
+    fetch("http://localhost:8080/api/cars/"+carID)
     .then(res=>res.json())
     .then(car=>{
         console.log(car)
@@ -144,8 +146,7 @@ const priceEdit = document.getElementById("pricePrDay-edit")
     edittedCar.brand=brandEdit.value
     edittedCar.model=modelEdit.value
     edittedCar.pricePrDay=priceEdit.value
-    let id = document.getElementById("id-edit").value
-    fetch("http://localhost:8080/api/cars/"+id,{
+    fetch("http://localhost:8080/api/cars/"+carID,{
         method: "put",
         headers:{
             "Content-Type": "application/json"
