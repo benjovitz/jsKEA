@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Cool Beers</h2>
+    <input type="number" id="filter-abv">
+    <Button id="abv-btn">Show only beers with Abv above</button>
+        <hr>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Tag line</th>
+          <th>Abv</th>
+          <th>IBU</th>
+        </tr>
+      </thead>
+      <tbody id="tbl1"></tbody>
+      
+    </table>
+</body>
+
+<script>
+    window.onload = getBeers
+    document.getElementById("abv-btn").onclick=filterBeers
+    const table = document.getElementById("tbl1")
+    let beers = [];
+
+    function getBeers(){
+        fetch("https://api.punkapi.com/v2/beers")
+        .then(res=>res.json())
+        .then(data=>{
+            beers = data
+            let text = data.map(beer=>"<tr><td>"+beer.name+"</td><td>"+beer.tagline+"</td><td>"+beer.abv+"</td><td>"+beer.ibu+"</td></tr>").join("")
+            table.innerHTML=text
+        })
+    }
+    function filterBeers(){
+        let abv = document.getElementById("filter-abv").value
+        let text = beers.filter(beer=>beer.abv>abv).map(beer=>"<tr><td>"+beer.name+"</td><td>"+beer.tagline+"</td><td>"+beer.abv+"</td><td>"+beer.ibu+"</td></tr>").join("")
+        table.innerHTML=text
+    }
+</script>
+</html>
