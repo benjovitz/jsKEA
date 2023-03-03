@@ -78,7 +78,7 @@
     </svg>
     <div>
         <img id="flag" src="">
-        <ul id="country-info">
+        <ul id="info">
             
         </ul>
     </div>
@@ -86,13 +86,24 @@
 
 <script>
     document.getElementById("europe").onclick = getCountry
-    const countryInfo = document.getElementById("country-info")
+    const countryInfo = document.getElementById("info")
     const flag = document.getElementById("flag")
 
+    let ogCountry
+    let orignalFill
     function getCountry(e){
-        let target = e.target
-        console.log(target.id)
-        fetch("https://countries.plaul.dk/api/countries/"+target.id)
+        const newCountry = e.target
+        if(ogCountry){
+            ogCountry.style.fill = orignalFill
+            countryInfo.innerHTML=""
+            flag.setAttribute("src","")
+        }
+        
+        ogCountry=newCountry
+        orignalFill = newCountry.style.fill
+        newCountry.style.fill = "pink"
+
+        fetch("https://countries.plaul.dk/api/countries/"+newCountry.id)
         .then(res => res.json())
         .then(data => {
             console.log(data)

@@ -30,15 +30,6 @@
                 <th>Phone</th>
             </tr>`
             text += data.map(obj=>"<tr><td>"+obj.name+"</td><td>"+obj.phone+"</td></tr>").join("")
-            /*
-            data.forEach(element => {
-                text+="<tr>"
-                text+="<td>"+element.name+"</td>"
-                text+="<td>"+element.phone+"</td>"
-                text+="</tr>"
-                console.log(text)
-            });
-            */
             userTable.innerHTML = text
         })
     }

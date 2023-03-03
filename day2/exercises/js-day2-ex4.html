@@ -20,8 +20,33 @@
     <button id="filterbtn">Filter price</button>  
     <input type="text" id="filterMake">
     <button id="makebtn">Filter make</button>  
+    <button id="clearbtn">Clear filters</button><br>
 
-    <button id="clearbtn">Clear filters</button>
+    <textarea name="" id="" cols="50" rows="10"> Example for my filter:
+        let carID = true;
+        function sortThatBitch(tableheader){
+            let carsHTML = [];
+            let target = tableheader.target
+            console.log(target.id)
+            switch(target.id){
+                case "id": 
+                carsHTML = sortByID(carID)
+                break;
+            } 
+            makeTable(carsHTML)
+        }
+    function sortByID(b){
+        let carsHTML = [];
+        if(b==true){
+            carsHTML = cars.sort((a,b)=>a.id-b.id) 
+            carID=false
+        }else{
+            carsHTML = cars.sort((a,b)=>b.id-a.id)
+            carID=true
+        }
+        return carsHTML;
+    }
+    </textarea>
 </body>
 
 <script>
@@ -80,32 +105,91 @@ let priceChecker = true;
         makeTable(carsHTML)
     }
     */
-    //et forsøg, kan ikke få den til begge veje, man kunne lave en swith til revers med et boolean check, men tror ikke det er den "rigtige" løsning
     const tableheaders = document.getElementById("tableheaders")
     tableheaders.onclick = sortThatBitch
+
+    let carID = true;
+    let carYear = true;
+    let carMake = true;
+    let carModel = true;
+    let carPrice = true;
     function sortThatBitch(tableheader){
         let carsHTML = [];
         let target = tableheader.target
         console.log(target.id)
         switch(target.id){
             case "id": 
-            carsHTML = cars.sort((a,b)=>a.id-b.id)
+            carsHTML = sortByID(carID)
             break;
             case "year":
-            carsHTML = cars.sort((a,b)=>a.year-b.year)
+            carsHTML = sortByYear(carYear)
             break;
             case "make":
-            carsHTML = cars.sort((a,b)=>a.make.localeCompare(b.make))
+            carsHTML = sortByMake(carMake)
             break;
             case "model":
-            carsHTML = cars.sort((a,b)=>a.model.localeCompare(b.model))
+            carsHTML = sortByModel(carModel)
             break;
             case "price":
-            carsHTML = cars.sort((a,b)=>a.price-b.price)
+            carsHTML = sortByPrice(carPrice)
             break;
         } 
         makeTable(carsHTML)
     }
-
+function sortByID(b){
+    let carsHTML = [];
+    if(b==true){
+        carsHTML = cars.sort((a,b)=>a.id-b.id) 
+        carID=false
+    }else{
+        carsHTML = cars.sort((a,b)=>b.id-a.id)
+        carID=true
+    }
+    return carsHTML;
+}
+function sortByYear(b){
+    let carsHTML = [];
+    if(b==true){
+        carsHTML = cars.sort((a,b)=>a.year-b.year)
+        carYear=false
+    }else{
+        carsHTML = cars.sort((a,b)=>b.year-a.year)
+        carYear=true
+    }
+    return carsHTML;
+}
+function sortByMake(b){
+    let carsHTML = [];
+    if(b==true){
+        carsHTML = cars.sort((a,b)=>a.make.localeCompare(b.make))
+        carMake=false
+    }else{
+        carsHTML = cars.sort((a,b)=>b.make.localeCompare(a.make))
+        carMake=true
+    }
+    return carsHTML;
+}
+function sortByModel(b){
+    let carsHTML = [];
+    if(b==true){
+        carsHTML = cars.sort((a,b)=>a.model.localeCompare(b.model))
+        carModel=false
+    }else{
+        carsHTML = cars.sort((a,b)=>b.model.localeCompare(a.model))
+        carModel=true
+    }
+    return carsHTML;
+}
+function sortByPrice(b){
+    let carsHTML = [];
+    if(b==true){
+        carsHTML = cars.sort((a,b)=>a.price-b.price)
+        carPrice=false
+    }else{
+        carsHTML = cars.sort((a,b)=>b.price-a.price)
+        carPrice=true
+    }
+    return carsHTML;
+}
 </script>
 </html>
